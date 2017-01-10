@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Stable" Class="InqDataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=VANDAMME\SQLEXPRESS;Initial Catalog=Stable;Integrated Security=True" SettingsObjectName="WindowsFormsApplication1.Properties.Settings" SettingsPropertyName="StableConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.CUSTOMER" Member="CUSTOMERs">
+    <Type Name="CUSTOMER">
+      <Column Name="customer_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="surname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="email" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Association Name="CUSTOMER_Visit" Member="Visits" ThisKey="customer_id" OtherKey="visitor" Type="Visit" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Horse" Member="Horses">
+    <Type Name="Horse">
+      <Column Name="horse_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="price" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Horse_Visit" Member="Visits" ThisKey="horse_id" OtherKey="which_horse" Type="Visit" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Payment" Member="Payments">
+    <Type Name="Payment">
+      <Column Name="pay_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="for_which_visit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sum_of_payment" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Visit_Payment" Member="Visit" ThisKey="for_which_visit" OtherKey="visit_id" Type="Visit" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Staff" Member="Staffs">
+    <Type Name="Staff">
+      <Column Name="staff_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="surname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="salary" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="position" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Visit" Member="Visits">
+    <Type Name="Visit">
+      <Column Name="visit_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="visitor" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="which_horse" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="which_day" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Association Name="Visit_Payment" Member="Payments" ThisKey="visit_id" OtherKey="for_which_visit" Type="Payment" />
+      <Association Name="CUSTOMER_Visit" Member="CUSTOMER" ThisKey="visitor" OtherKey="customer_id" Type="CUSTOMER" IsForeignKey="true" />
+      <Association Name="Horse_Visit" Member="Horse" ThisKey="which_horse" OtherKey="horse_id" Type="Horse" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
